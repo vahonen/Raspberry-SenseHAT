@@ -10,10 +10,10 @@
 body {
     background-color: powderblue;
 }
+
 h1 {
     color: black;
 }
-
 
 table {
 margin: 8px;
@@ -54,14 +54,18 @@ input { display: table-cell; }
 </head>
 <body>
 
-<h1>SenseHAT mittadataa</h1>
-
+<h1>SenseHAT-mittadataa</h1>
+<p><b>Viimeisin mittaus:</b><p>
+<p id="currentTime"></p>
 
 <canvas id="temperaturegauge" width="250" height="250"></canvas>
 <canvas id="humiditygauge" width="200" height="200"></canvas>
 <canvas id="pressuregauge" width="200" height="200"></canvas>
 
+
+
 <form name="askDateRange" method="POST">
+
 <p>
 	<label>Mistä:</label>
     <input type="date" name="dateFrom" value="<?php echo date("Y-m-d"); ?>"/>
@@ -112,6 +116,7 @@ input { display: table-cell; }
 	$temperature = $row['temperature'];
 	$humidity = $row['humidity'];
 	$pressure = $row['pressure'];
+	$curr_time = $row['date'] . " " . $row['time'];
 	
     mysqli_close($con);
 ?>
@@ -129,6 +134,7 @@ $(document).ready(function(){
 		pressure_str = "<?php echo $pressure ;?>";
 		pressure = parseInt("<?php echo $pressure ;?>");
 
+		document.getElementById("currentTime").innerHTML = "<b><?php echo $curr_time ;?></b><br/>";
 		
         $("#temperaturegauge")
           .gauge({
