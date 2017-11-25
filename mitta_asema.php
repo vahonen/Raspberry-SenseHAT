@@ -50,8 +50,8 @@ input { display: table-cell; }
 <script type="text/javascript" src="./gauge.js"></script>
 <script type="text/javascript" src="./jquery.gauge.js"></script>
 
-
 </head>
+
 <body>
 
 <h1>SenseHAT-mittadataa</h1>
@@ -61,8 +61,6 @@ input { display: table-cell; }
 <canvas id="temperaturegauge" width="250" height="250"></canvas>
 <canvas id="humiditygauge" width="200" height="200"></canvas>
 <canvas id="pressuregauge" width="200" height="200"></canvas>
-
-
 
 <form name="askDateRange" method="POST">
 
@@ -79,37 +77,31 @@ input { display: table-cell; }
 </p>
 </form>
 
-
-
 <?php
 	
 	$start_date = date('Y-m-d', strtotime($_POST['dateFrom']));
 	$stop_date = date('Y-m-d', strtotime($_POST['dateTo']));
 	
-	
-	// echo date("Y-m-d");
-	
-	
     $con=mysqli_connect("localhost","testaaja","salasana","sense_data");
-    // Check connection
+    
     if (mysqli_connect_errno())
-      {
-      echo "Failed to connect to MySQL: " . mysqli_connect_error();
-      }
+    {
+      echo "MySQL-yhteys epäonnistui: " . mysqli_connect_error();
+    }
 	
-		$sql_query = "SELECT * FROM data_table WHERE date >= '" . $start_date . "' AND date <= '" . $stop_date . "';";
-		//echo $sql_query;
-		$result = mysqli_query($con, $sql_query);
+	$sql_query = "SELECT * FROM data_table WHERE date >= '" . $start_date . "' AND date <= '" . $stop_date . "';";
+	//echo $sql_query;
+	$result = mysqli_query($con, $sql_query);
 
-		echo '<table border = "1">';//echo "<table>";
-		echo "<tr><th>Pvm</th><th>Aika</th><th>Lämpötila (°C)</th><th>Kosteus (%)</th><th>Paine (mbar)</th></tr>";
-		while($row = mysqli_fetch_array($result))
-			{
-			echo "<tr><td>" . $row['date'] . "</td><td> " . $row['time'] . "</td><td>" . $row['temperature'] . "</td><td>" . $row['humidity'] . "</td><td>" . $row['pressure'] . "</td></tr>";
-			}
-		echo "</table>";
+	echo '<table border = "1">';
+	echo "<tr><th>Pvm</th><th>Aika</th><th>Lämpötila (°C)</th><th>Kosteus (%)</th><th>Paine (mbar)</th></tr>";
+	while($row = mysqli_fetch_array($result))
+	{
+		echo "<tr><td>" . $row['date'] . "</td><td> " . $row['time'] . "</td><td>" . $row['temperature'] . "</td><td>" . $row['humidity'] . "</td><td>" . $row['pressure'] . "</td></tr>";
+	}
+	echo "</table>";
 	
-	
+	// luetaan taulukon viimeinen rivi:
 	$result = mysqli_query($con,"SELECT * FROM data_table ORDER BY idDataTable DESC LIMIT 1");
 	$row = mysqli_fetch_array($result);
 	
@@ -125,13 +117,8 @@ input { display: table-cell; }
 
 $(document).ready(function(){
 		
-		temperature_str = "<?php echo $temperature ;?>";
 		temperature = parseFloat("<?php echo $temperature ;?>");
-		
-		humidity_str = "<?php echo $humidity ;?>";
 		humidity = parseInt("<?php echo $humidity ;?>");
-		
-		pressure_str = "<?php echo $pressure ;?>";
 		pressure = parseInt("<?php echo $pressure ;?>");
 
 		document.getElementById("currentTime").innerHTML = "<b><?php echo $curr_time ;?></b><br/>";
@@ -167,9 +154,6 @@ $(document).ready(function(){
           .gauge('setValue', pressure);
 		  
     });
-    </script>
-
-
-
+</script>
 </body>
 </html>
