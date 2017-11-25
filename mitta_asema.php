@@ -82,7 +82,7 @@ input { display: table-cell; }
 	$start_date = date('Y-m-d', strtotime($_POST['dateFrom']));
 	$stop_date = date('Y-m-d', strtotime($_POST['dateTo']));
 	
-    $con=mysqli_connect("localhost","testaaja","salasana","sense_data");
+    $con=mysqli_connect("localhost", "testaaja", "salasana", "sense_data");
     
     if (mysqli_connect_errno())
     {
@@ -102,7 +102,7 @@ input { display: table-cell; }
 	echo "</table>";
 	
 	// luetaan taulukon viimeinen rivi:
-	$result = mysqli_query($con,"SELECT * FROM data_table ORDER BY idDataTable DESC LIMIT 1");
+	$result = mysqli_query($con, "SELECT * FROM data_table ORDER BY idDataTable DESC LIMIT 1");
 	$row = mysqli_fetch_array($result);
 	
 	$temperature = $row['temperature'];
@@ -129,7 +129,9 @@ $(document).ready(function(){
              max: 40,
              label: 'Lämpötila',
              bands: [{color: "#0000ff", from: 0, to: 18}, {color: "#00ff00", from: 18, to: 24}, {color: "#ff0000", from: 24, to: 40}],
-			 unitsLabel: '' + String.fromCharCode(186) + 'C'
+			 unitsLabel: '' + String.fromCharCode(186) + 'C',
+			 majorTicks: 5,
+			 minorTicks: 1
            })
           .gauge('setValue', temperature);
         
@@ -139,7 +141,9 @@ $(document).ready(function(){
              max: 100,
              label: 'Ilmankosteus',
              bands: [{color: "#ff0000", from: 0, to: 20}, {color: "#00ff00", from: 20, to: 40}, {color: "#0000ff", from: 40, to: 100}],
-			 unitsLabel: '%'
+			 unitsLabel: '%',
+			 majorTicks: 11,
+			 minorTicks: 1
            })
           .gauge('setValue', humidity);
 		  
@@ -149,7 +153,9 @@ $(document).ready(function(){
              min: 900,
              max: 1100,
              label: 'Ilmanpaine',
-			 unitsLabel: 'm'
+			 unitsLabel: 'm',
+			 majorTicks: 5,
+			 minorTicks: 4
            })
           .gauge('setValue', pressure);
 		  
